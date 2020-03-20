@@ -3,7 +3,7 @@
         "latitude": "59.3293371",
         "longitude": "13.4877472",
         "name": "Arab Street",
-        "zip-code": "900101",
+        "zipCode": "900101",
         "population": "200456",
         "description": "briefly describe the location"
 
@@ -23,7 +23,7 @@
         "latitude": "59.3231271",
         "longitude": "13.2174111",
         "name": "Carter bridge",
-        "zip-code": "911111",
+        "zipCode": "911111",
         "population": "3021455",
         "description": "briefly describe the location"
 
@@ -33,7 +33,7 @@
         "latitude": "59.6131271",
         "longitude": "13.3875111",
         "name": "Dresden Alias",
-        "zip-code": "908211",
+        "zipCode": "908211",
         "population": "199293",
         "description": "briefly describe the location"
 
@@ -43,7 +43,7 @@
         "latitude": "59.1131231",
         "longitude": "13.9843911",
         "name": "Paramount Gateway",
-        "zip-code": "9182022",
+        "zipCode": "9182022",
         "population": "2092212",
         "description": "briefly describe the location"
 
@@ -53,7 +53,7 @@
         "latitude": "59.0119261",
         "longitude": "13.1842211",
         "name": "Utopia lane",
-        "zip-code": "9102912",
+        "zipCode": "9102912",
         "population": "1824409",
         "description": "briefly describe the location"
 
@@ -63,7 +63,7 @@
         "latitude": "59.4182619",
         "longitude": "13.9842291",
         "name": "Generation Parkview",
-        "zip-code": "9102901",
+        "zipCode": "9102901",
         "population": "90021",
         "description": "briefly describe the location"
 
