@@ -1,13 +1,12 @@
 'use strict';
 const AWS = require('aws-sdk');
-const fileType = require('file-type');
 const s3 = new AWS.S3();
 const db = new AWS.DynamoDB.DocumentClient({
-	apiVersion: '2012-08-10',
+  apiVersion: '2012-08-10',
 	region: 'eu-west-2',
 });
 const calculateDistance = require('./utils/calculateDistance');
-const getFile = require('./utils/upload');
+const parser = require('./utils/upload')
 module.exports.postUpload = async event => {
 	let responseBody = {};
 	let statusCode = 0;
@@ -105,35 +104,36 @@ module.exports.getAllLocations = async event => {
 	return response;
 };
 module.exports.uploadFile = async (event, context) => {
-	let responseBody = {};
-	let statusCode = 0;
-	const request = event.body;
-	const base64String = request.base64String;
-	try {
-    const buffer = Buffer.from(base64String, 'base64');
-		const fileMime = fileType(buffer);
-		if (fileMime === null) {
-			return context.fail('The string supplied is not a file type');
-		}
-		const file = getFile(fileMime, buffer);
-		const params = file.params;
-		s3.putObject(params, (err, data) => {
-			if (err) {
-				console.log(err);
-			}
-			return console.log(data.full_path);
-		});
-		responseBody = 'Finished uploading';
-		statusCode = 200;
-	} catch (error) {
-		responseBody = 'Error uploading document';
-		statusCode = 500;
+  let responseBody = {};
+  let statusCode = 0;
+  try {
+    const uploadPropertyImage = async (buffer, fileName) => {
+      const bucketName = "kilma-metrix";
+      const filePath = `${fileName}`;
+      const params = {
+        Bucket: bucketName,
+        Key: filePath,
+        Body: buffer,
+        ACL: 'public-read',
+      };
+      const data = await s3.upload(params).promise()
+      return data;
     }
-    const response = {
-        statusCode,
-        body: responseBody
+    await parser(event);
+      const request = event.body;
+       const result = await uploadPropertyImage(request.file, request.filename);
+       responseBody = JSON.stringify(result.Location);
+       statusCode = 200;
     }
-    return response;
+  catch (error) {
+    responseBody = 'Unable to upload image';
+    statusCode = 500;
+  }
+  const response = {
+		statusCode,
+		body: responseBody,
+	};
+	return response;
 };
 
 

@@ -1,11 +1,11 @@
-service: kilma-metrix-2
+service: kilma-metrix
 plugins:
   - serverless-offline
 frameworkVersion: '>=1.1.0'
 custom:
-  bucket: kilma-metrix-2
+  bucket: kilma-metrix
   settings:
-    LOCATIONS_TABLE: newlocations2
+    LOCATIONS_TABLE: Locations
 
 provider:
   name: aws
@@ -65,7 +65,7 @@ functions:
 
 resources:
   Resources:
-    NewLocationsTable3:
+    LocationsTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
         AttributeDefinitions:

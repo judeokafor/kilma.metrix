@@ -1,27 +1,42 @@
-const sha1 = require('sha1');
-const moment = require('moment');
-const getFile = (fileMime, buffer) => {
-	const fileExt = fileMime.ext;
-	const hash = sha1(Buffer.from(new Date().toString()));
-	const now = moment().format('LLLL');
-	const filePath = hash + '/';
-	const fileName = Math.round(new Date(now).getTime() / 1000) + '.' + fileExt;
-	const fileFullName = filePath + fileName;
-	const fileFullPath = fileFullName;
-	const params = {
-		Bucket: 'kilma-metrix-2',
-		Key: fileFullName + fileExt,
-		Body: buffer,
-	};
-	const uploadFile = {
-		size: buffer.toString('ascii').length,
-		type: fileMime.mime,
-		name: fileName,
-		fullPath: fileFullPath,
-	};
-	return {
-		params,
-		uploadFile,
-	};
-};
-module.exports = getFile;
+const Busboy = require('busboy');
+const getContentType = event => {
+    const contentType = event.headers["content-type"];
+    if (!contentType) {
+      return event.headers["Content-Type"];
+    }
+    return contentType;
+  };
+const parser = (event) => new Promise((resolve, reject) => {
+    const busboy = new Busboy({
+        headers: {
+            'content-type': getContentType(event)
+        }
+    });
+  
+    const result = {};
+  
+    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+        file.on('data', data => {
+            result.file = data;
+        });
+  
+        file.on('end', () => {
+            result.filename = filename;
+            result.contentType = mimetype;
+        });
+    });
+  
+    busboy.on('field', (fieldname, value) => {
+        result[fieldname] = value;
+    });
+  
+    busboy.on('error', error => reject(error));
+    busboy.on('finish', () => {
+        event.body = result;
+        resolve(event);
+    });
+  
+    busboy.write(event.body, event.isBase64Encoded ? 'base64' : 'binary');
+    busboy.end();
+  });
+  module.exports = parser;

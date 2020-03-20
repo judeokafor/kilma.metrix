@@ -2,6 +2,7 @@
 node_modules
 jspm_packages
 /layer/nodejs/node_modules
+/layer/nodejs/package-lock.json
 
 # Serverless directories
 .serverless
