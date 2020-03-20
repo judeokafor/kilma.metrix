@@ -1,0 +1,85 @@
+service: kilma-metrix-2
+plugins:
+  - serverless-offline
+frameworkVersion: '>=1.1.0'
+custom:
+  bucket: kilma-metrix-2
+  settings:
+    LOCATIONS_TABLE: newlocations2
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  environment: ${self:custom.settings}
+  stage: dev
+  region: eu-west-2
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - s3:PutObject
+        - s3:PutObjectAcl
+      Resource:
+        - 'arn:aws:s3:::${self:custom.bucket}/*'
+        - 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.LOCATIONS_TABLE}'
+
+functions:
+  auth:
+    handler: auth/handler.authorizer
+    cors: true
+  uploadFile:
+    handler: handler.uploadFile
+    layers:
+      - { Ref: CommonLibsLambdaLayer }
+    events:
+      - http:
+          path: /upload
+          method: post
+          cors: true
+  getLocationById:
+    handler: handler.getLocationById
+    events:
+      - http:
+          path: /{id}
+          method: get
+          cors: true
+          authorizer: auth
+  getAllLocations:
+    handler: handler.getAllLocations
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+          authorizer: auth
+  postUpload:
+    handler: handler.postUpload
+    events:
+      - s3:
+          bucket: ${self:custom.bucket}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .json
+
+resources:
+  Resources:
+    NewLocationsTable3:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.settings.LOCATIONS_TABLE}
+layers:
+  commonLibs:
+    path: layer
+    compatibleRuntimes:
+      - nodejs12.x

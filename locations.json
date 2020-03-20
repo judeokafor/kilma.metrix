@@ -1,0 +1,71 @@
+[{
+        "id": "4356824e-3f3c-41ac-a3f8-2102b70a0fda",
+        "latitude": "59.3293371",
+        "longitude": "13.4877472",
+        "name": "Arab Street",
+        "zip-code": "900101",
+        "population": "200456",
+        "description": "briefly describe the location"
+
+    },
+    {
+        "id": "3f23a8b3-2c49-4231-9f84-d6fb19f7059b",
+        "latitude": "58.8292271",
+        "longitude": "13.4174727",
+        "name": "Allen roundabout",
+        "zipCode": "910102",
+        "population": "10009221",
+        "description": "briefly describe the location"
+
+    },
+    {
+        "id": "f1c04b22-cedb-4243-a6e0-847f531706c3",
+        "latitude": "59.3231271",
+        "longitude": "13.2174111",
+        "name": "Carter bridge",
+        "zip-code": "911111",
+        "population": "3021455",
+        "description": "briefly describe the location"
+
+    },
+    {
+        "id": "02168a21-5431-4504-a5d7-035ca0fa70c4",
+        "latitude": "59.6131271",
+        "longitude": "13.3875111",
+        "name": "Dresden Alias",
+        "zip-code": "908211",
+        "population": "199293",
+        "description": "briefly describe the location"
+
+    },
+    {
+        "id": "a5a05695-287c-4f08-bcb6-053493366025",
+        "latitude": "59.1131231",
+        "longitude": "13.9843911",
+        "name": "Paramount Gateway",
+        "zip-code": "9182022",
+        "population": "2092212",
+        "description": "briefly describe the location"
+
+    },
+    {
+        "id": "f9ce05a6-f654-4a9b-9856-5409f6b30e77",
+        "latitude": "59.0119261",
+        "longitude": "13.1842211",
+        "name": "Utopia lane",
+        "zip-code": "9102912",
+        "population": "1824409",
+        "description": "briefly describe the location"
+
+    },
+    {
+        "id": "25b1f268-4980-4ca5-8b84-a85023386dd2",
+        "latitude": "59.4182619",
+        "longitude": "13.9842291",
+        "name": "Generation Parkview",
+        "zip-code": "9102901",
+        "population": "90021",
+        "description": "briefly describe the location"
+
+    }
+]
